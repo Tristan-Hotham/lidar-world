@@ -1,0 +1,56 @@
+"""The gallery of places where lidar shows what the eye cannot. Written by hand; every claim checked
+against the linked Wikipedia article. Writes data/finds.json."""
+import json
+W = 'https://en.wikipedia.org/wiki/'
+F = [
+ # id, name, place, layer, lat, lon, zoom, text, wiki title
+ ('stonehenge', 'Stonehenge and its barrows', 'Wiltshire, England', 'gb-en', 51.1795, -1.8262, 15.2,
+  "Strip away the grass and the stones are the least of it. The bank and ditch round the circle are older than the stones, the Avenue runs off towards the River Avon, and round barrows crowd the ridges on every side. The long, straight Stonehenge Cursus, older again, crosses the downs to the north.", 'Stonehenge'),
+ ('housesteads', "Hadrian's Wall at Housesteads", 'Northumberland, England', 'gb-en', 55.0115, -2.3285, 15.0,
+  "The Roman fort of Vercovicium sits on the crags of the Whin Sill. South of the Wall the Vallum, a great ditch between two banks dug by the Romans, runs as a double line across the fields.", "Housesteads_Roman_Fort"),
+ ('maiden-castle', 'Maiden Castle', 'Dorset, England', 'gb-en', 50.6947, -2.4686, 15.0,
+  "One of the largest Iron Age hillforts in Europe. Lidar shows the rings of ramparts and ditches as clearly as from the air, and the twisting entrances at each end, built so attackers had to walk a maze under the walls.", 'Maiden_Castle,_Dorset'),
+ ('grimes-graves', "Grime's Graves", 'Norfolk, England', 'gb-en', 52.4757, 0.6748, 16.0,
+  "A field of hollows in the heath, each one the filled-in top of a Neolithic flint mine. More than 400 shafts were dug here about 4,500 years ago to reach the best flint, deep in the chalk.", "Grime's_Graves"),
+ ('wharram-percy', 'Wharram Percy', 'North Yorkshire, England', 'gb-en', 54.0664, -0.6888, 15.5,
+  "A medieval village that was abandoned around 1500, when its fields were turned over to sheep. The house plots and the strips of ridge and furrow left by medieval ploughs still show in the grass.", 'Wharram_Percy'),
+ ('old-sarum', 'Old Sarum', 'Wiltshire, England', 'gb-en', 51.0935, -1.8045, 15.5,
+  "An Iron Age hillfort reused by Romans, Saxons and Normans, who built a castle in the middle and a cathedral beside it. In the 13th century the cathedral moved down to the new Salisbury and the old town slowly emptied, leaving its banks.", 'Old_Sarum'),
+ ('messines', 'The mines of Messines', 'West Flanders, Belgium', 'be-vl', 50.7765, 2.8605, 15.5,
+  "On 7 June 1917 British tunnellers fired 19 mines under the German lines along the Messines Ridge. The craters are still there; the one at Spanbroekmolen is now a pond called the Pool of Peace. Around them, the ground is still lined with trenches and shell holes.", 'Mines_in_the_Battle_of_Messines_(1917)'),
+ ('hill-60', 'Hill 60', 'Zillebeke, Belgium', 'be-vl', 50.8238, 2.9300, 16.0,
+  "A low spoil heap from a railway cutting that both sides fought for from 1914 to 1918, tunnelling beneath it and blowing it apart. Lidar shows a hill turned inside out by craters.", 'Hill_60_(Ypres)'),
+ ('verdun', 'Verdun: Fort Douaumont', 'Meuse, France', 'fr', 49.2165, 5.4385, 14.8,
+  "The battle of Verdun in 1916 churned this ground with millions of shells. Much of it was too dangerous to farm and was planted with forest. Under the trees, lidar shows every crater, trench and fort as if the guns had only just stopped.", 'Fort_Douaumont'),
+ ('bibracte', 'Bibracte', 'Burgundy, France', 'fr', 46.9230, 4.0380, 14.5,
+  "The hilltop capital of the Aedui, one of the great towns of Gaul, where Julius Caesar spent the winter after the siege of Alesia. Forest has covered Mont Beuvray for centuries; lidar shows the long ramparts beneath it.", 'Bibracte'),
+ ('hogebeintum', 'The terp of Hogebeintum', 'Friesland, Netherlands', 'nl', 53.3337, 5.8480, 16.0,
+  "Before the dykes, people in Friesland lived on mounds they built by hand to keep above the tides. Hogebeintum is the highest left, rising out of land that is otherwise almost perfectly flat.", 'Hogebeintum'),
+ ('manching', 'The oppidum of Manching', 'Bavaria, Germany', 'de-by', 48.7180, 11.5060, 13.6,
+  "One of the largest Celtic towns north of the Alps. Its wall ran for about 7 km in a near-perfect circle; parts of it still stand, and lidar picks up the rest of the ring across the fields and the airfield.", 'Oppidum_of_Manching'),
+ ('zavist', 'Závist', 'Central Bohemia, Czechia', 'cz', 49.9630, 14.3960, 14.5,
+  "A Celtic hillfort and later oppidum above the Vltava, south of Prague. Its ramparts and terraces lie in woodland, where lidar sees them better than anyone walking through.", 'Závist'),
+ ('goldau', 'The Goldau landslide', 'Schwyz, Switzerland', 'ch', 47.0480, 8.5480, 13.6,
+  "On 2 September 1806 a slab of the Rossberg slid into the valley and buried the village of Goldau, killing 457 people. The scar on the mountain and the rough tongue of rubble below are still plain from above.", 'Goldau_landslide'),
+ ('skocjan', 'The karst at Škocjan', 'Slovenia', 'si', 45.6640, 13.9900, 14.6,
+  "The Karst plateau gave the world the word karst. Rain dissolves the limestone from below, so the land is pocked with sinkholes, and at Škocjan two of them are great collapse dolines above one of the largest underground canyons known.", 'Škocjan_Caves'),
+ ('medulas', 'Las Médulas', 'León, Spain', 'es', 42.4590, -6.7690, 13.8,
+  "The most important gold mine in the Roman Empire. Roman engineers brought rivers here in channels and used the water to bring down whole hillsides, leaving these red pinnacles and a landscape of tailings and canals.", 'Las_Médulas'),
+ ('borre', 'The mounds at Borre', 'Vestfold, Norway', 'no', 59.3870, 10.4580, 16.0,
+  "One of the largest groups of grave mounds in Scandinavia, from the Iron Age and the Viking Age. A Viking ship burial was found in one of them in 1852.", 'Borre_mound_cemetery'),
+ ('titelberg', 'The Titelberg', 'Luxembourg', 'lu', 49.5370, 5.8660, 14.6,
+  "An oppidum of the Treveri, a Celtic people, on a plateau above the Chiers. Its earth ramparts still run round the edge of the plateau, and lidar traces them through the woods and fields.", 'Titelberg'),
+ ('daisen', 'Daisen Kofun', 'Sakai, Japan', 'jp', 34.5640, 135.4875, 15.2,
+  "A keyhole-shaped burial mound about 486 m long, the largest in Japan, attributed to the Emperor Nintoku and built in the 5th century. It is closed to the public; its moats and wooded mound are clearest from above.", 'Daisen_Kofun'),
+ ('cahokia', 'Cahokia', 'Illinois, United States', 'us', 38.6605, -90.0620, 15.0,
+  "The largest city north of Mexico before Columbus, at its height around 1100. Monks Mound, made of earth carried by hand in baskets, is the largest prehistoric earthwork in the Americas; smaller mounds stand round it.", 'Cahokia'),
+ ('poverty-point', 'Poverty Point', 'Louisiana, United States', 'us', 32.6365, -91.4060, 15.0,
+  "Six concentric C-shaped ridges and a great bird-shaped mound, built about 3,400 years ago by people who lived by hunting, fishing and gathering. The ridges are low, and easiest to see without the grass.", 'Poverty_Point'),
+ ('oso', 'The Oso landslide', 'Washington, United States', 'us', 48.2820, -121.8480, 14.4,
+  "On 22 March 2014 a hillside above the North Fork Stillaguamish River gave way, burying a neighbourhood and killing 43 people. Lidar flown before the slide showed older landslides here, but few had looked.", '2014_Oso_mudslide'),
+ ('st-helens', 'Mount St Helens', 'Washington, United States', 'us', 46.2000, -122.1900, 12.6,
+  "On 18 May 1980 the north face of the volcano collapsed in the largest landslide on record and the blast flattened forest for miles. The horseshoe crater, the new dome inside it and the debris below are clearer in lidar than in any photograph.", 'Mount_St._Helens'),
+]
+out = [dict(id=a, name=b, place=c, layer=d, lat=e, lon=f, z=g, text=h, wiki=W + i) for a, b, c, d, e, f, g, h, i in F]
+json.dump(out, open('data/finds.json', 'w'), ensure_ascii=False, indent=1)
+print(len(out))

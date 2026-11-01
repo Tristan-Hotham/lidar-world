@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>A lidar map of the world | The Bare Earth</title>
+<meta name="description" content="A lidar map of the world: national laser surveys from England, France, Flanders, the Netherlands, Switzerland, Japan, the United States and more in one zoomable map, over a global shaded relief. Hillforts, Roman roads, trenches and landslides hidden under trees and fields.">
+<meta property="og:title" content="A lidar map of the world: the bare earth, with the trees and buildings taken away">
+<meta property="og:description" content="Fifteen national lidar surveys in one zoomable map. Find hillforts under forests, the craters of Verdun, the mines of Messines and 23 more places where lasers see what eyes cannot.">
+<meta property="og:image" content="https://maps.tristanhotham.com/lidar-world/header.png">
+<meta property="og:url" content="https://maps.tristanhotham.com/lidar-world/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://maps.tristanhotham.com/lidar-world/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800;9..144,900&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"The Bare Earth: a lidar map of the world","description":"A zoomable world map that joins fifteen national lidar hillshade services to a global shaded relief, with a gallery of 23 places where lidar reveals landscapes hidden by vegetation.","creator":{"@type":"Person","name":"Tristan Hotham","identifier":"https://orcid.org/0000-0003-4931-9349"},"license":"https://creativecommons.org/licenses/by/4.0/","url":"https://maps.tristanhotham.com/lidar-world/","identifier":"https://doi.org/10.5281/zenodo.23866756","datePublished":"2026"}</script>
+<style>
+:root{
+  --bg:#F4F2EE; --panel:#ECE9E3; --fg:#1F2326; --muted:#62686D; --rule:#DDD8CF; --card:#FBFAF8; --border:#CFC9BE;
+  --hot:#C2410C; --cool:#2F6690;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16191B; --panel:#1E2225; --fg:#ECEAE6; --muted:#A3A9AD; --rule:#2F3438; --card:#1B1F22; --border:#3B4146; --hot:#F08A5D; --cool:#8DB8DB; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16191B; --panel:#1E2225; --fg:#ECEAE6; --muted:#A3A9AD; --rule:#2F3438; --card:#1B1F22; --border:#3B4146; --hot:#F08A5D; --cool:#8DB8DB; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 18px/1.62 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));overflow-x:hidden}
+.wrap{max-width:720px;margin:0 auto;padding-block:28px 64px}
+.wide{max-width:1180px;margin:0 auto}
+a{color:inherit;text-decoration-color:var(--hot);text-underline-offset:3px}
+.kicker{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.kicker b{background:var(--hot);color:#fff;padding:5px 8px;font-weight:500}
+header.hero{border-bottom:3px solid var(--fg);padding-bottom:22px;margin-top:18px}
+h1{font:900 clamp(42px,9vw,86px)/.92 var(--display);letter-spacing:-.025em;margin:0;text-wrap:balance}
+h1 em{font-style:normal;color:var(--hot)}
+.dek{font-size:21px;line-height:1.42;margin:14px 0 0;max-width:58ch}
+.byline{font:400 13px/1.4 var(--mono);color:var(--muted);margin-top:14px}
+h2{font:800 34px/1.05 var(--display);letter-spacing:-.01em;margin:54px 0 10px;text-wrap:balance}
+h2 .n{font:500 13px/1 var(--mono);color:var(--hot);display:block;letter-spacing:.1em;margin-bottom:10px}
+p{margin:0 0 16px}
+.src{font:400 12px/1.45 var(--mono);color:var(--muted);margin-top:10px}
+details{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:10px 0;margin:18px 0;font-size:16px}
+summary{font:500 13px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;color:var(--muted)}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin:30px 0 0}
+.cta a{font:500 13px/1 var(--mono);text-decoration:none;border:1px solid var(--fg);padding:11px 14px;border-radius:3px}
+.cta a.p{background:var(--hot);border-color:var(--hot);color:#fff}
+footer{border-top:3px solid var(--fg);margin-top:56px;padding-top:16px;font:400 13px/1.55 var(--mono);color:var(--muted)}
+footer p{margin:0 0 10px}
+.theme{position:fixed;right:12px;bottom:12px;z-index:1002;font:500 12px/1 var(--mono);background:var(--card);color:var(--fg);border:1px solid var(--border);border-radius:3px;padding:8px 10px;cursor:pointer;min-height:36px}
+table.cov{width:100%;border-collapse:collapse;font:400 14px/1.35 var(--mono);margin:14px 0}
+table.cov th{text-align:left;font-weight:500;color:var(--muted);border-bottom:2px solid var(--fg);padding:6px 8px 6px 0}
+table.cov td{border-bottom:1px solid var(--rule);padding:7px 8px 7px 0;vertical-align:top}
+table.cov td:first-child{font-weight:500;white-space:nowrap}
+table.cov button{font:500 12px/1 var(--mono);background:none;border:1px solid var(--border);border-radius:3px;padding:6px 8px;color:var(--fg);cursor:pointer;min-height:30px}
+.tblwrap{overflow-x:auto}
+.finds{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin:22px 0}
+.find{background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
+.find img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;background:#DCD8D0;border-bottom:1px solid var(--border)}
+.find .b{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.find h3{margin:0;font:800 21px/1.12 var(--display)}
+.find h3 i{font:500 12px/1 var(--mono);font-style:normal;color:#fff;background:var(--hot);border-radius:999px;padding:3px 7px;margin-right:6px;vertical-align:3px}
+.find .pl{font:400 12px/1.3 var(--mono);color:var(--muted)}
+.find p{font-size:15.5px;line-height:1.5;margin:0}
+.find .acts{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap;padding-top:6px}
+.find .acts button,.find .acts a{font:500 12px/1 var(--mono);text-decoration:none;border:1px solid var(--fg);background:none;color:var(--fg);padding:8px 10px;border-radius:3px;cursor:pointer;min-height:32px;display:inline-flex;align-items:center}
+.find .acts button{background:var(--hot);border-color:var(--hot);color:#fff}
+.figure{margin:22px 0}
+.figure img{width:100%;display:block;border:1px solid var(--border)}
+
+/* ---- the map ---- */
+.mapband{width:100vw;margin-left:calc(50% - 50vw);margin-top:26px;padding:0 max(10px,env(safe-area-inset-left,0px))}
+#map{position:relative;height:min(86vh,940px);min-height:520px;border:1px solid #B9B3A8;background:#EDEBE6;max-width:1600px;margin:0 auto;overflow:hidden}
+.ov{position:absolute;z-index:5;font:400 13px/1.3 var(--mono);color:#1F2326}
+.ov-top{left:10px;top:10px;right:54px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;pointer-events:none}
+.ov-top>*{pointer-events:auto}
+.srch{position:relative;width:min(340px,100%)}
+.srch input{width:100%;font:400 15px/1 var(--mono);background:rgba(255,255,255,.96);color:#1F2326;border:1px solid #8D877C;border-radius:3px;padding:9px 10px;min-height:40px;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.srch input:focus-visible,.chip:focus-visible,.lp label:focus-within{outline:2px solid #C2410C;outline-offset:2px}
+.sug{position:absolute;left:0;right:0;top:100%;margin:2px 0 0;padding:0;list-style:none;background:#fff;border:1px solid #8D877C;max-height:300px;overflow:auto;display:none;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+.sug li{padding:8px 10px;cursor:pointer;border-bottom:1px solid #EEE}
+.sug li span{color:#6B6B6B;font-size:12px}
+.sug li[aria-selected="true"],.sug li:hover{background:#F3EFE8}
+.chips{display:flex;gap:6px;overflow-x:auto;max-width:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font:500 12px/1 var(--mono);background:rgba(255,255,255,.95);color:#1F2326;border:1px solid #8D877C;border-radius:999px;padding:8px 11px;cursor:pointer;min-height:34px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.chip:hover{background:#F3EFE8}
+.chip.lyr{background:#1F2326;color:#fff;border-color:#1F2326}
+.chip.dice{background:#C2410C;color:#fff;border-color:#C2410C}
+.lp{position:absolute;left:10px;top:104px;z-index:6;background:rgba(255,255,255,.98);border:1px solid #8D877C;border-radius:4px;padding:10px 12px 8px;font:400 13px/1.3 var(--mono);color:#1F2326;box-shadow:0 3px 12px rgba(0,0,0,.22);display:none;min-width:250px;max-width:320px;max-height:calc(100% - 120px);overflow:auto}
+.lp.open{display:block}
+.lp h4{margin:6px 0 6px;font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#6B6B6B}
+.lp label{display:flex;gap:8px;align-items:center;padding:4px 0;cursor:pointer;min-height:30px}
+.lp input[type=checkbox]{accent-color:#C2410C;width:16px;height:16px;flex:none}
+.lp input[type=range]{width:100%;accent-color:#C2410C}
+.lp hr{border:0;border-top:1px solid #E5E1D9;margin:6px 0}
+.lp details{border:0;margin:0;padding:2px 0;font-size:13px}
+.lp summary{font:500 12px/1.3 var(--mono);letter-spacing:0;text-transform:none;color:#1F2326;padding:4px 0}
+.lp .sub label{padding:2px 0 2px 4px;min-height:26px;font-size:12px}
+.badge{position:absolute;left:10px;bottom:10px;z-index:5;font:400 12px/1.35 var(--mono);color:#1F2326;background:rgba(255,255,255,.92);padding:6px 9px;border-radius:3px;border:1px solid #CFC9BE;max-width:min(430px,calc(100% - 140px))}
+.badge b{color:#C2410C;font-weight:500}
+.maplibregl-popup-content{background:#fff;color:#1F2326;font:400 14px/1.45 var(--body);border:1px solid #8D877C;border-radius:4px;padding:11px 13px;box-shadow:0 3px 12px rgba(0,0,0,.22);max-width:320px}
+.maplibregl-popup-content b.t{display:block;font:800 19px/1.15 var(--display);color:#9A3412;margin-bottom:2px}
+.maplibregl-popup-content .pl{font:400 12px/1.3 var(--mono);color:#6B6B6B;margin-bottom:6px}
+.maplibregl-popup-content a{font:500 12px/1.3 var(--mono);color:#C2410C}
+.maplibregl-popup-content .src2{font:400 11px/1.35 var(--mono);color:#6B6B6B;margin-top:6px}
+.maplibregl-ctrl-attrib{font:400 11px/1.3 var(--mono)!important}
+.nojs{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:400 14px var(--mono);color:#62686D;padding:20px;text-align:center}
+body.maponly{padding:0}body.maponly .wrap,body.maponly .theme{display:none}body.maponly .mapband{margin:0;padding:0;width:100vw}body.maponly #map{height:100vh;max-width:none;border:0}
+body.clean .ov,body.clean .lp,body.clean .badge,body.clean .mfs-btn,body.clean .maplibregl-ctrl-bottom-right,body.clean .maplibregl-ctrl-bottom-left{display:none!important}
+@media (max-width:600px){
+  #map{height:78vh;min-height:460px}
+  .lp{top:100px;left:8px;right:8px;min-width:0;max-width:none}
+  .ov-top{left:8px;top:8px}
+  .badge{max-width:calc(100% - 20px);bottom:auto;top:96px;font-size:11px}
+  h2{font-size:28px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="kicker"><b>Data study</b><span>The Bare Earth</span><span>World, 2026</span></div>
+<header class="hero">
+  <h1>A <em>lidar</em> map of the world</h1>
+  <p class="dek">Fifteen national laser surveys in one zoomable map, over a shaded relief of the whole Earth. Take away the trees, the crops and the buildings and the ground underneath is full of things: hillforts in forests, Roman mines, the craters of the First World War and the scars of landslides.</p>
+</header>
+<div class="byline">Dr Tristan Hotham · Independent researcher · 2026 · Data: Environment Agency; IGN France; Digitaal Vlaanderen; AHN; swisstopo; Kartverket; USGS 3DEP; GSI Japan; and seven more national agencies; Esri World Hillshade</div>
+
+<p style="margin-top:22px">Lidar is a laser fired from an aircraft hundreds of thousands of times a second. Each pulse bounces back from whatever it hits, and the time it takes gives a height. Most pulses hit leaves, roofs or crops, but some slip through the gaps to the ground. Keep only those and you have the bare earth, a model of the land as if every tree and building had been lifted off. Light it from one side and every bank, ditch and hollow casts a shadow.</p>
+<p>Many countries have now flown lidar over all or most of their land, and more and more publish the results openly. This map joins fifteen of them that publish a shaded version a web page can load directly, and fills the rest of the world with a global shaded relief. Zoom in to any of the outlined places and the national lidar takes over. Below the map are 23 places where it shows something you would walk straight past.</p>
+</div>
+
+<div class="mapband">
+  <div id="map" data-fullscreen-map role="application" aria-label="Zoomable world map of lidar shaded relief">
+    <div class="nojs" id="nojs">Loading the map. It needs JavaScript and WebGL.</div>
+    <div class="ov ov-top">
+      <div class="srch"><input type="search" id="q" placeholder="Find a place" aria-label="Find a place" autocomplete="off"><ul class="sug" id="sug" role="listbox"></ul></div>
+      <div class="chips" id="presets">
+        <button class="chip lyr" id="lyrBtn" aria-expanded="false" aria-controls="lp">Layers</button>
+        <button class="chip dice" id="dice" title="Fly to a random place from the gallery">Surprise me</button>
+      </div>
+    </div>
+    <div class="lp" id="lp" role="dialog" aria-label="Map layers">
+      <h4>Relief</h4>
+      <label><input type="checkbox" data-g="lidar" checked> National lidar (zoom in)</label>
+      <details><summary>Choose countries</summary><div class="sub" id="lidarList"></div></details>
+      <label><input type="checkbox" data-g="world" checked> World shaded relief</label>
+      <label><input type="checkbox" id="terrain"> Tilt into 3D</label>
+      <hr>
+      <h4>Compare</h4>
+      <label><input type="checkbox" data-g="aerial"> Aerial photo on top</label>
+      <label style="flex-direction:column;align-items:stretch;gap:2px">Photo strength<input type="range" id="aerialOp" min="10" max="100" value="50" aria-label="Aerial photo opacity"></label>
+      <hr>
+      <h4>On the map</h4>
+      <label><input type="checkbox" data-g="finds" checked> The 23 places in the gallery</label>
+      <label><input type="checkbox" data-g="coverage" checked> Outlines of lidar coverage</label>
+      <label><input type="checkbox" data-g="labels" checked> Place names</label>
+      <label><input type="checkbox" data-g="water" checked> Seas, lakes and rivers</label>
+      <label><input type="checkbox" data-g="borders" checked> Borders</label>
+      <label><input type="checkbox" data-g="roads"> Roads</label>
+    </div>
+    <div class="badge" id="badge" aria-live="polite"></div>
+  </div>
+</div>
+
+<div class="wrap" style="padding-top:8px">
+<p class="src">Shaded relief loaded live from each publisher (credits under the map and in the table below). World shaded relief: Esri World Hillshade. Place names: OpenStreetMap contributors via OpenFreeMap. The square button at the top right fills the screen; the Layers button chooses what to show, and Tilt into 3D raises the land.</p>
+
+<h2><span class="n">01 · What you are looking at</span>Fifteen surveys and one world</h2>
+<p>Far out, the map is a shaded relief of the whole planet, the same image used in many online maps, built from the best elevation its makers could gather: satellite radar in most places, and national lidar where they had it. The dashed orange lines mark the places with a national lidar layer of their own. Zoom past about level 9 (a county or so on screen) and the national layer is drawn on top, with the light coming from the north-west as on almost every relief map. The box at the bottom left says which survey you are looking at.</p>
+<p>The detail is not the same everywhere. Flanders publishes a shading at a quarter of a metre; France, the Netherlands and Switzerland at half a metre; England, Norway, Slovenia and the German states at a metre. The United States has lidar at about a metre over most of the country and coarser elevation elsewhere. Spain and Japan publish shadings made from grids of a few metres, made largely from laser surveys. The Netherlands is the odd one out: its service shows height in colour, not shade, which suits a country where the highest ground for miles may be a dyke.</p>
+<div class="tblwrap"><table class="cov">
+<thead><tr><th>Where</th><th>Detail</th><th>Published by</th><th>Licence</th><th></th></tr></thead>
+<tbody>
+{{COVERAGE_ROWS}}
+</tbody></table></div>
+<p>Plenty of countries have flown lidar and do not appear here. Scotland, Wales, Ireland, Denmark, Sweden, Finland and New Zealand all have national lidar and let anyone download it. But they either publish no shaded version, publish it only for use with a key, or serve it in a way a web page elsewhere is not allowed to load. In those places the map falls back to the world relief.</p>
+
+<h2><span class="n">02 · The gallery</span>23 places the lasers see better than we do</h2>
+<p>Every place below is on the map with a number. Press <i>Show on map</i> to fly there, then try the <i>Aerial photo on top</i> layer to see how little of it shows from the air.</p>
+</div>
+<div class="wide"><div class="finds" id="finds">
+{{FINDS}}
+</div></div>
+
+<div class="wrap">
+<h2><span class="n">03 · Reading the shadows</span>Why the light comes from the top left</h2>
+<p>Shaded relief is an illusion: a flat image of a surface lit by a lamp that is never there. Mapmakers have put the lamp in the north-west, at the top left of the map, for well over a century, because our eyes expect light to come from above. Put the light at the bottom and many people see hills as hollows and valleys as ridges. Every layer here keeps the convention, so a bank throws its shadow to the bottom right and a ditch is dark on its top-left side.</p>
+<p>That has a side effect. A bank or ditch running from the top left to the bottom right is lit along its length and casts almost no shadow, so it can vanish. Archaeologists working with lidar usually look at several lightings, or at measures that do not depend on the light at all, such as slope or how much of the sky each point can see. The services here each choose their own lamp; Bavaria's, for one, is an oblique light, kept low to pick out small rises in the ground.</p>
+
+<h2><span class="n">04 · How I made this</span>Asking each country for its own pictures</h2>
+<p>Nothing on the map is copied or stored. The page asks each agency's own open map service for shaded relief images as you pan and zoom, using the standard web map formats (WMS and WMTS) that public agencies publish, and draws them with MapLibre. For each one I checked that it serves images to other websites, that the licence allows reuse, and what it really shows. Each national layer is clipped to an outline of its country or region from Natural Earth, so that the map only asks a service for places it covers.</p>
+<p>Where layers come only in colour, I turned them grey (Luxembourg) or kept the colour and said so (the Netherlands). The world relief behind is Esri's World Hillshade. The 3D view uses the open AWS Terrain Tiles, which are much coarser than lidar, so the tilt shows the lie of the land, not the earthworks. The gallery was written by hand; each note was checked against its Wikipedia article and the place checked on the map.</p>
+<details><summary>Sources and licences</summary>
+<ul>{{SOURCES}}</ul>
+<p>Place names, water and borders: © OpenStreetMap contributors (ODbL), tiles by OpenFreeMap. World shaded relief: Esri World Hillshade (Esri, Airbus, USGS, NGA, NASA, CGIAR, NLS, OS, NMA, Geodatastyrelsen, GSA, GSI and the GIS user community). Aerial photos: Esri World Imagery. Terrain for the 3D view: AWS Terrain Tiles. Coverage outlines: Natural Earth (public domain).</p>
+</details>
+
+<div class="cta"><a class="p" href="https://doi.org/10.5281/zenodo.23866756">Read the paper</a><a href="https://github.com/Tristan-Hotham/lidar-world">Data and code</a><a href="https://blog.tristanhotham.com/2026/10/31/lidar-world/">Blog post</a></div>
+
+<footer>
+<p>Dr Tristan Hotham, Independent researcher. ORCID <a href="https://orcid.org/0000-0003-4931-9349">0000-0003-4931-9349</a>.</p>
+<p>Cite as: Hotham, T. (2026) The Bare Earth: a lidar map of the world. Zenodo. <a href="https://doi.org/10.5281/zenodo.23866756">10.5281/zenodo.23866756</a></p>
+<p>Code: <a href="https://github.com/Tristan-Hotham/lidar-world">github.com/Tristan-Hotham/lidar-world</a> (MIT). Text and figures CC BY 4.0. The shaded relief belongs to each publisher, under the licences listed above.</p>
+<p>I wrote the text, with drafting and editing assistance from Claude (Anthropic), which also helped prepare the code. I reviewed and checked all text and results.</p>
+</footer>
+</div>
+<button class="theme" id="theme" aria-label="Toggle dark mode">◐</button>
+
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="js/lidar-map.js"></script>
+<script>
+(function () {
+  const qs = new URLSearchParams(location.search);
+  if (qs.has('maponly')) document.body.classList.add('maponly');
+  if (qs.has('clean')) document.body.classList.add('clean');
+  const tb = document.getElementById('theme');
+  tb.addEventListener('click', () => { const r = document.documentElement; const dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; r.dataset.theme = dark ? 'light' : 'dark'; });
+  const PRESETS = [
+    ['World', [[-168, -56], [190, 76]]],
+    ['England', [[-6, 49.9], [1.8, 55.8]]],
+    ['Flanders', [[2.5, 50.68], [5.9, 51.5]]],
+    ['France', [[-5, 42.3], [8.3, 51.1]]],
+    ['Alps', [[5.9, 45.8], [16.6, 48.2]]],
+    ['Japan', [[129, 30.5], [146, 45.6]]],
+    ['United States', [[-125, 24.5], [-66.9, 49.4]]],
+  ];
+  const pre = document.getElementById('presets');
+  let map;
+  PRESETS.forEach(([n, b]) => {
+    const btn = document.createElement('button'); btn.className = 'chip'; btn.textContent = n;
+    btn.addEventListener('click', () => map && map.fitBounds(b, { padding: 20, duration: 2200, essential: true }));
+    pre.appendChild(btn);
+  });
+  const start = qs.get('at') ? qs.get('at').split(',').map(Number) : null;
+  const mo = start ? { center: [start[1], start[0]], zoom: start[2] } : { center: [-1.8262, 51.1795], zoom: 15.2 };
+  if (start && start[3]) { mo.pitch = start[3]; }
+  LidarMap.create('map', { mapOptions: mo }).then(m => {
+    map = window.__map = m;
+    document.getElementById('nojs').remove();
+    map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
+    map.addControl(new maplibregl.ScaleControl({ unit: 'metric', maxWidth: 110 }), 'bottom-right');
+    const fold = () => { const at = document.querySelector('.maplibregl-ctrl-attrib.maplibregl-compact'); if (at) { at.classList.remove('maplibregl-compact-show'); at.removeAttribute('open'); } };
+    map.once('idle', fold); fold();
+    setupLayers(map); setupSearch(map); setupPopups(map); setupBadge(map); setupFinds(map);
+  }).catch(e => { console.error(e); const n = document.getElementById('nojs'); if (n) n.textContent = 'The map could not load: ' + e.message; });
+
+  function flyFind(f) {
+    if (!map) return;
+    document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    map.flyTo({ center: [f.lon, f.lat], zoom: f.z, pitch: 0, bearing: 0, duration: 2600, essential: true });
+    map.once('moveend', () => openFind(f));
+  }
+  let pop;
+  function openFind(f) {
+    const L = map.__lidar.layers.find(l => l.id === f.layer);
+    if (pop) pop.remove();
+    pop = new maplibregl.Popup({ offset: 14, maxWidth: '320px' }).setLngLat([f.lon, f.lat])
+      .setHTML('<b class="t"></b><div class="pl"></div><div class="tx"></div><div class="src2"></div><a target="_blank" rel="noopener">Read more on Wikipedia</a>').addTo(map);
+    const el = pop.getElement();
+    el.querySelector('.t').textContent = f.name; el.querySelector('.pl').textContent = f.place;
+    el.querySelector('.tx').textContent = f.text;
+    el.querySelector('.src2').textContent = 'Lidar: ' + (L ? L.by + ', ' + L.res : '');
+    el.querySelector('a').href = f.wiki;
+  }
+  function setupFinds(map) {
+    const F = map.__lidar.finds;
+    document.querySelectorAll('[data-find]').forEach(b => b.addEventListener('click', () => flyFind(F.find(f => f.id === b.dataset.find))));
+    document.getElementById('dice').addEventListener('click', () => { const f = F[Math.floor(Math.random() * F.length)]; map.flyTo({ center: [f.lon, f.lat], zoom: f.z, duration: 3000, essential: true }); map.once('moveend', () => openFind(f)); });
+    document.querySelectorAll('[data-fly]').forEach(b => b.addEventListener('click', () => { const L = map.__lidar.layers.find(l => l.id === b.dataset.fly); const bb = L.bounds; map.fitBounds([[bb[0], bb[1]], [bb[2], bb[3]]], { padding: 20, duration: 2000 }); document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' }); }));
+  }
+  function setupPopups(map) {
+    map.on('click', 'finds-c', e => { const i = e.features[0].properties.i; openFind(map.__lidar.finds[i]); });
+    map.on('mouseenter', 'finds-c', () => map.getCanvas().style.cursor = 'pointer');
+    map.on('mouseleave', 'finds-c', () => map.getCanvas().style.cursor = '');
+  }
+  function setupBadge(map) {
+    const b = document.getElementById('badge');
+    const upd = () => {
+      const s = LidarMap.showing(map), z = map.getZoom().toFixed(1);
+      const aerial = map.getLayoutProperty('aerial', 'visibility') === 'visible';
+      let t;
+      if (s && s.on) t = '<b>Lidar:</b> ' + s.L.name + ' · ' + s.L.res;
+      else if (s) t = '<b>Zoom in</b> to see the lidar of ' + s.L.name;
+      else t = '<b>World shaded relief</b> · no national lidar layer here';
+      b.innerHTML = t + ' · zoom ' + z + (aerial ? ' · with aerial photo' : '');
+    };
+    map.on('moveend', upd); map.on('zoomend', upd); upd(); map.__badge = upd;
+  }
+  function setupLayers(map) {
+    const lp = document.getElementById('lp'), btn = document.getElementById('lyrBtn');
+    btn.addEventListener('click', e => { e.stopPropagation(); const o = lp.classList.toggle('open'); btn.setAttribute('aria-expanded', o); });
+    document.addEventListener('click', e => { if (!lp.contains(e.target) && e.target !== btn) { lp.classList.remove('open'); btn.setAttribute('aria-expanded', false); } });
+    const list = document.getElementById('lidarList');
+    const subs = [];
+    for (const L of map.__lidar.layers.slice().sort((a, b) => a.name.localeCompare(b.name))) {
+      const lab = document.createElement('label'); const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = true; cb.dataset.lid = L.id;
+      lab.append(cb, document.createTextNode(' ' + L.name)); list.appendChild(lab); subs.push(cb);
+    }
+    const master = lp.querySelector('input[data-g="lidar"]');
+    const applyLidar = () => subs.forEach(cb => LidarMap.setLidar(map, cb.dataset.lid, master.checked && cb.checked));
+    subs.forEach(cb => cb.addEventListener('change', () => { applyLidar(); map.__badge(); }));
+    lp.querySelectorAll('input[data-g]').forEach(b => b.addEventListener('change', () => {
+      if (b.dataset.g === 'lidar') applyLidar(); else LidarMap.setGroup(map, b.dataset.g, b.checked);
+      map.__badge();
+    }));
+    document.getElementById('aerialOp').addEventListener('input', e => map.setPaintProperty('aerial', 'raster-opacity', e.target.value / 100));
+    document.getElementById('terrain').addEventListener('change', e => {
+      if (e.target.checked) { map.setTerrain({ source: 'dem', exaggeration: 1.4 }); map.easeTo({ pitch: 62, duration: 1200 }); }
+      else { map.setTerrain(null); map.easeTo({ pitch: 0, duration: 800 }); }
+    });
+  }
+  // search: Photon geocoder (OpenStreetMap data)
+  function setupSearch(map) {
+    const q = document.getElementById('q'), sug = document.getElementById('sug');
+    let items = [], sel = -1, t;
+    const show = () => {
+      sug.innerHTML = ''; sug.style.display = items.length ? 'block' : 'none';
+      items.forEach((it, i) => { const li = document.createElement('li'); li.setAttribute('role', 'option'); li.setAttribute('aria-selected', i === sel); li.textContent = it.n + ' '; const s = document.createElement('span'); s.textContent = it.c; li.appendChild(s); li.addEventListener('mousedown', ev => { ev.preventDefault(); go(it); }); sug.appendChild(li); });
+    };
+    const go = it => { items = []; show(); q.value = it.n; q.blur(); if (it.e) map.fitBounds([[it.e[0], it.e[3]], [it.e[2], it.e[1]]], { padding: 30, maxZoom: 15, duration: 2000 }); else map.flyTo({ center: [it.lon, it.lat], zoom: 14, duration: 2000 }); };
+    q.addEventListener('input', () => {
+      clearTimeout(t); const v = q.value.trim(); if (v.length < 2) { items = []; show(); return; }
+      t = setTimeout(async () => {
+        try {
+          const j = await (await fetch('https://photon.komoot.io/api/?limit=6&lang=en&q=' + encodeURIComponent(v))).json();
+          items = j.features.map(f => ({ n: f.properties.name || v, c: [f.properties.state, f.properties.country].filter(Boolean).join(', '), lon: f.geometry.coordinates[0], lat: f.geometry.coordinates[1], e: f.properties.extent }));
+          sel = -1; show();
+        } catch (e) { items = []; show(); }
+      }, 250);
+    });
+    q.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown') { sel = Math.min(sel + 1, items.length - 1); show(); e.preventDefault(); }
+      else if (e.key === 'ArrowUp') { sel = Math.max(sel - 1, 0); show(); e.preventDefault(); }
+      else if (e.key === 'Enter' && items.length) { go(items[Math.max(sel, 0)]); }
+      else if (e.key === 'Escape') { items = []; show(); }
+    });
+    q.addEventListener('blur', () => setTimeout(() => { items = []; show(); }, 150));
+  }
+})();
+</script>
+{{FULLSCREEN}}
+</body>
+</html>

@@ -1,0 +1,27 @@
+Code (everything in code/, js/ and the page scripts): MIT License
+
+Copyright (c) 2026 Tristan Hotham
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Text, gallery notes, figures and derived data (data/, release/, reddit/, header.png, README.md and the text of index.html):
+Creative Commons Attribution 4.0 International (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/.
+Attribution: Tristan Hotham (2026).
+
+Third-party material. The repository holds no lidar data; the map loads shaded relief live from each publisher.
+The images in img/, header.png, release/ and reddit/ contain shaded relief from these publishers, under their licences:
+Environment Agency (Open Government Licence v3); IGN France (Licence Ouverte 2.0); Digitaal Vlaanderen (free reuse licence);
+AHN via PDOK (CC0); swisstopo (free use with credit); Kartverket (CC BY 4.0); USGS 3DEP (public domain); GSI Japan (GSI terms,
+with credit); IGN Spain (CC BY 4.0); basemap.at (CC BY 4.0); CUZK (CC BY 4.0); Bayerische Vermessungsverwaltung (CC BY 4.0);
+Geobasis NRW (dl-de/zero-2-0); GURS Slovenia (CC BY 4.0); Luxembourg ACT (CC0); and Esri World Hillshade.
+Coverage outlines: Natural Earth (public domain).

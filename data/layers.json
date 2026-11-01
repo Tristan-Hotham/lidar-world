@@ -1,0 +1,286 @@
+[
+ {
+  "id": "us",
+  "name": "United States",
+  "res": "1 m where lidar exists, ~10 m elsewhere",
+  "by": "USGS 3D Elevation Program (3DEP)",
+  "lic": "Public domain",
+  "link": "https://www.usgs.gov/3d-elevation-program",
+  "kind": "arcgis",
+  "url": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?bbox={bbox-epsg-3857}&bboxSR=3857&imageSR=3857&size=512,512&format=png&renderingRule=%7B%22rasterFunction%22%3A%22Hillshade%20Gray%22%7D&f=image",
+  "minzoom": 9,
+  "bounds": [
+   -178.24,
+   18.91,
+   179.83,
+   71.46
+  ]
+ },
+ {
+  "id": "jp",
+  "name": "Japan",
+  "res": "5 m in most lowlands (laser survey), 10 m elsewhere",
+  "by": "Geospatial Information Authority of Japan (GSI)",
+  "lic": "GSI terms of use, with credit",
+  "link": "https://maps.gsi.go.jp/development/ichiran.html",
+  "kind": "xyz",
+  "url": "https://cyberjapandata.gsi.go.jp/xyz/hillshademap/{z}/{x}/{y}.png",
+  "minzoom": 5,
+  "maxzoom": 16,
+  "ts": 256,
+  "bounds": [
+   123.63,
+   24.23,
+   145.88,
+   45.56
+  ]
+ },
+ {
+  "id": "no",
+  "name": "Norway",
+  "res": "1 m",
+  "by": "Kartverket, Norwegian national detailed elevation model",
+  "lic": "CC BY 4.0",
+  "link": "https://hoydedata.no/",
+  "kind": "wms",
+  "url": "https://wms.geonorge.no/skwms1/wms.hoyde-dtm-nhm-25833",
+  "minzoom": 9,
+  "layer": "NHM_DTM_25833",
+  "style": "skyggerelieff",
+  "bounds": [
+   -9.15,
+   57.97,
+   33.68,
+   80.53
+  ]
+ },
+ {
+  "id": "es",
+  "name": "Spain",
+  "res": "up to 5 m (PNOA lidar)",
+  "by": "Instituto Geográfico Nacional (IGN), Spain",
+  "lic": "CC BY 4.0",
+  "link": "https://www.ign.es/",
+  "kind": "xyz",
+  "url": "https://servicios.idee.es/wmts/mdt?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=Relieve&STYLE=default&TILEMATRIXSET=GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png",
+  "minzoom": 6,
+  "maxzoom": 17,
+  "ts": 256,
+  "bounds": [
+   -18.21,
+   27.6,
+   4.37,
+   43.81
+  ]
+ },
+ {
+  "id": "fr",
+  "name": "France",
+  "res": "0.5 m (LiDAR HD)",
+  "by": "IGN France, LiDAR HD programme",
+  "lic": "Licence Ouverte 2.0",
+  "link": "https://geoservices.ign.fr/lidarhd",
+  "kind": "xyz",
+  "url": "https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=IGNF_LIDAR-HD_MNT_ELEVATION.ELEVATIONGRIDCOVERAGE.SHADOW&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png",
+  "minzoom": 6,
+  "maxzoom": 18,
+  "ts": 256,
+  "bounds": [
+   -4.81,
+   41.33,
+   9.6,
+   51.15
+  ]
+ },
+ {
+  "id": "at",
+  "name": "Austria",
+  "res": "shaded from the states’ laser scans",
+  "by": "basemap.at (the Austrian states)",
+  "lic": "CC BY 4.0",
+  "link": "https://basemap.at/",
+  "kind": "xyz",
+  "url": "https://mapsneu.wien.gv.at/basemap/bmapgelaende/grau/google3857/{z}/{y}/{x}.jpeg",
+  "minzoom": 6,
+  "maxzoom": 18,
+  "ts": 256,
+  "bounds": [
+   9.47,
+   46.35,
+   17.2,
+   49.05
+  ]
+ },
+ {
+  "id": "cz",
+  "name": "Czechia",
+  "res": "DMR 5G laser terrain model",
+  "by": "ČÚZK, Czech Office for Surveying, Mapping and Cadastre",
+  "lic": "CC BY 4.0",
+  "link": "https://geoportal.cuzk.cz/",
+  "kind": "wms",
+  "url": "https://ags.cuzk.gov.cz/arcgis2/services/dmr5g/ImageServer/WMSServer",
+  "minzoom": 9,
+  "layer": "dmr5g:GrayscaleHillshade",
+  "style": "",
+  "bounds": [
+   12.04,
+   48.53,
+   18.88,
+   51.08
+  ]
+ },
+ {
+  "id": "de-by",
+  "name": "Bavaria",
+  "res": "1 m",
+  "by": "Bayerische Vermessungsverwaltung",
+  "lic": "CC BY 4.0",
+  "link": "https://geodaten.bayern.de/opengeodata/",
+  "kind": "wms",
+  "url": "https://geoservices.bayern.de/od/wms/dgm/v1/relief",
+  "minzoom": 9,
+  "layer": "by_relief_schraeglicht",
+  "style": "",
+  "bounds": [
+   8.93,
+   47.22,
+   13.87,
+   50.61
+  ]
+ },
+ {
+  "id": "de-nw",
+  "name": "North Rhine-Westphalia",
+  "res": "1 m",
+  "by": "Geobasis NRW",
+  "lic": "dl-de/zero-2-0",
+  "link": "https://www.bezreg-koeln.nrw.de/geobasis-nrw",
+  "kind": "wms",
+  "url": "https://www.wms.nrw.de/geobasis/wms_nw_dgm-schummerung",
+  "minzoom": 9,
+  "layer": "nw_dgm-schummerung_pan",
+  "style": "",
+  "bounds": [
+   5.8,
+   50.27,
+   9.51,
+   52.57
+  ]
+ },
+ {
+  "id": "ch",
+  "name": "Switzerland",
+  "res": "0.5 m (swissALTI3D)",
+  "by": "swisstopo",
+  "lic": "Free use, with credit (OGD)",
+  "link": "https://www.swisstopo.admin.ch/en/height-model-swissalti3d",
+  "kind": "xyz",
+  "url": "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissalti3d-reliefschattierung/default/current/3857/{z}/{x}/{y}.png",
+  "minzoom": 6,
+  "maxzoom": 18,
+  "ts": 256,
+  "bounds": [
+   5.92,
+   45.78,
+   10.5,
+   47.83
+  ]
+ },
+ {
+  "id": "si",
+  "name": "Slovenia",
+  "res": "1 m",
+  "by": "Surveying and Mapping Authority of Slovenia (GURS)",
+  "lic": "CC BY 4.0",
+  "link": "https://ipi.eprostor.gov.si/",
+  "kind": "wms",
+  "url": "https://ipi.eprostor.gov.si/wms-si-gurs-dts/wms",
+  "minzoom": 9,
+  "layer": "SI.GURS.ZPDZ:LIDAR",
+  "style": "",
+  "bounds": [
+   13.33,
+   45.38,
+   16.57,
+   46.91
+  ]
+ },
+ {
+  "id": "lu",
+  "name": "Luxembourg",
+  "res": "2019 laser survey",
+  "by": "Administration du cadastre et de la topographie, Luxembourg",
+  "lic": "CC0",
+  "link": "https://data.public.lu/",
+  "kind": "wms",
+  "url": "https://wmts1.geoportail.lu/opendata/service",
+  "minzoom": 9,
+  "layer": "lidar_2019_mnt_public",
+  "style": "",
+  "grey": true,
+  "bounds": [
+   5.67,
+   49.4,
+   6.54,
+   50.22
+  ]
+ },
+ {
+  "id": "nl",
+  "name": "Netherlands",
+  "res": "0.5 m (AHN), coloured by height",
+  "by": "Actueel Hoogtebestand Nederland, via PDOK",
+  "lic": "CC0",
+  "link": "https://www.ahn.nl/",
+  "kind": "wms",
+  "url": "https://service.pdok.nl/rws/ahn/wms/v1_0",
+  "minzoom": 9,
+  "layer": "dtm_05m",
+  "style": "",
+  "bounds": [
+   3.3,
+   50.7,
+   7.25,
+   53.68
+  ]
+ },
+ {
+  "id": "be-vl",
+  "name": "Flanders",
+  "res": "0.25 m",
+  "by": "Digitaal Vlaanderen (DHMV II)",
+  "lic": "Free reuse licence (Modellicentie)",
+  "link": "https://www.vlaanderen.be/digitaal-vlaanderen",
+  "kind": "wms",
+  "url": "https://geo.api.vlaanderen.be/DHMV/wms",
+  "minzoom": 9,
+  "layer": "DHMV_II_HILL_25cm",
+  "style": "",
+  "bounds": [
+   2.47,
+   50.65,
+   5.88,
+   51.54
+  ]
+ },
+ {
+  "id": "gb-en",
+  "name": "England",
+  "res": "1 m",
+  "by": "Environment Agency, LIDAR Composite DTM",
+  "lic": "Open Government Licence v3",
+  "link": "https://environment.data.gov.uk/survey",
+  "kind": "wms",
+  "url": "https://environment.data.gov.uk/spatialdata/lidar-composite-digital-terrain-model-dtm-1m/wms",
+  "minzoom": 9,
+  "layer": "Lidar_Composite_Hillshade_DTM_1m",
+  "style": "",
+  "bounds": [
+   -5.71,
+   49.97,
+   1.8,
+   55.86
+  ]
+ }
+]
