@@ -16,7 +16,7 @@ feats, out = [], []
 for L in LAYERS:
     g = unary_union([get(k, n) for k, n in L['units']])
     if L['id'] == 'fr': g = g.intersection(box(-6, 41, 10, 52))          # metropolitan France and Corsica
-    g = g.simplify(0.02, preserve_topology=True)
+    g = g.buffer(0.08).simplify(0.02, preserve_topology=True)
     w, s, e, n = g.bounds
     if L['id'] == 'us': w = max(w, -179.5)
     feats.append({'type': 'Feature', 'properties': {'id': L['id'], 'name': L['name'], 'res': L['res'], 'by': L['by']}, 'geometry': mapping(g)})
