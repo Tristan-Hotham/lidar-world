@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this data or code, please cite it as below."
+title: "The Bare Earth: A Lidar Map of the World, Joining Fifteen National Lidar Surveys to a Global Shaded Relief"
+type: dataset
+authors:
+  - family-names: Hotham
+    given-names: Tristan
+    orcid: "https://orcid.org/0000-0003-4931-9349"
+    affiliation: "Independent researcher"
+doi: "10.5281/zenodo.23866756"
+url: "https://maps.tristanhotham.com/lidar-world/"
+repository-code: "https://github.com/Tristan-Hotham/lidar-world"
+license: CC-BY-4.0
+keywords:
+  - "lidar"
+  - "airborne laser scanning"
+  - "digital terrain model"
+  - "hillshade"
+  - "shaded relief"
+  - "archaeology"
+  - "landscape archaeology"
+  - "web mapping"
+  - "open data"
+  - "MapLibre"
