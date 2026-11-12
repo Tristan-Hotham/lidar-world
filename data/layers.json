@@ -57,14 +57,14 @@
  {
   "id": "es",
   "name": "Spain",
-  "res": "up to 5 m (PNOA lidar)",
+  "res": "2.5 m lidar surface model, with buildings and trees in colour",
   "by": "Instituto Geográfico Nacional (IGN), Spain",
   "lic": "CC BY 4.0",
   "link": "https://www.ign.es/",
   "kind": "xyz",
-  "url": "https://servicios.idee.es/wmts/mdt?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=Relieve&STYLE=default&TILEMATRIXSET=GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png",
+  "url": "https://wmts-mapa-lidar.idee.es/lidar?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=EL.GridCoverageDSM&STYLE=default&TILEMATRIXSET=GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png",
   "minzoom": 6,
-  "maxzoom": 17,
+  "maxzoom": 16,
   "ts": 256,
   "bounds": [
    -18.29,
